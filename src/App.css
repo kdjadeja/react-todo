@@ -60,6 +60,7 @@ body {
 #todo_list{
     overflow: auto;
     max-height: 24em;
+    height:24em;
 }
 
 .scrollbar
