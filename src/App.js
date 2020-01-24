@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ListItems from './ListItems'
+import { animateScroll } from "react-scroll";
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 
@@ -14,7 +15,13 @@ class App extends React.Component {
         key: null
       }
     }
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
+  scrollToBottom() {
+    animateScroll.scrollToTop({
+      containerId: "todo_list"
+    });
+}
   handleInput(e) {
     this.setState({
       currentItem: {
@@ -26,16 +33,19 @@ class App extends React.Component {
   addItem(e) {
     e.preventDefault();
     const newItem = this.state.currentItem;
-    if (newItem.text !== "") {
+    if (newItem.text) {
       const itemData = this.state.items ? this.state.items : []
-      const data = [...itemData, newItem];
+      // const data = [...itemData, newItem];
+      itemData.unshift(newItem);
       this.setState({
-        items: data,
+        items: itemData,
         currentItem: {
           text: '',
           key: ''
         }
-      })
+      },
+      this.scrollToBottom
+      )
     }
   }
   deleteItem(key) {
@@ -56,6 +66,7 @@ class App extends React.Component {
       items: items
     })
   }
+  
   render() {
     return (
       <div className="App">
@@ -64,10 +75,12 @@ class App extends React.Component {
           <input type="text" placeholder="Enter Text" value={this.state.currentItem.text} onChange={this.handleInput.bind(this)} />
           <button type="submit">Add</button>
         </form>
-        <ListItems items={this.state.items}
-          deleteItem={this.deleteItem.bind(this)}
-          setUpdate={this.setUpdate.bind(this)}
-        />
+        <div id="todo_list" className="scrollbar">
+          <ListItems items={this.state.items}
+            deleteItem={this.deleteItem.bind(this)}
+            setUpdate={this.setUpdate.bind(this)}
+          />
+        </div>
       </div>
     );
   }

@@ -26,7 +26,7 @@ export default function ListItems(props) {
         null;
     return (
         <div>
-            <FlipMove duration={500} easing="ease-in-out">
+            <FlipMove duration={500} easing="ease-out">
                 {listItems}
             </FlipMove>
         </div>
